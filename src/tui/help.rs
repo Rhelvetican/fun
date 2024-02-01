@@ -58,7 +58,7 @@ fn get_keyboard_shortcuts_table() -> &'static str {
 fn get_justified_keyboard_shortcuts_table(
     key_map: &HashMap<(KeyEvent, ActionContext), Action>,
 ) -> String {
-    let formatter = crokey::KeyEventFormat::default();
+    let formatter = crokey::KeyCombinationFormat::default();
 
     let keyboard_shortcuts = get_keyboard_shortcuts_table();
 
@@ -69,7 +69,7 @@ fn get_justified_keyboard_shortcuts_table(
         .unwrap_or(10);
 
     // Mapping from action names to list of key combinations
-    let key_map_invert = invert_key_mapping_sorted(key_mapping);
+    let key_map_invert = invert_key_mapping_sorted(key_map);
 
     let mut justified = String::new();
 
