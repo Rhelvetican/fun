@@ -1,4 +1,4 @@
-mod act;
+pub mod act;
 pub mod help;
 pub mod render;
 
