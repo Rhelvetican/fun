@@ -1,4 +1,5 @@
 mod act;
+pub mod help;
 pub mod render;
 
 const HEADER_SIZE: usize = 1;

@@ -64,7 +64,7 @@ impl Action {
 }
 
 #[derive(Hash, PartialEq, Eq, Clone, Debug, StrumDisplay, EnumString, EnumIter)]
-enum ActionContext {
+pub enum ActionContext {
     None,
     Search,
     NotSearch,
