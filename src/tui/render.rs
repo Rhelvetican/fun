@@ -3,7 +3,19 @@ use crossterm::style::{StyledContent, Stylize};
 pub const README_STR: &str = include_str!("../../README.md");
 
 pub fn wrap_stylize(text: &str, size: usize) -> Vec<Vec<StyledContent<String>>> {
-    todo!()
+    let (mut txt, bold_pos) = strip_markup_extract_bold_pos(text);
+
+    textwrap::fill_inplace(&mut txt, size);
+
+    let mut res = stylize_lines(txt.split('\n').collect(), bold_pos);
+
+    res.drain(..)
+        .map(|mut line| {
+            line.drain(..)
+                .filter(|item| !item.content().is_empty())
+                .collect()
+        })
+        .collect()
 }
 
 fn strip_markup_extract_bold_pos(text: &str) -> (String, Vec<usize>) {
