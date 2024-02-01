@@ -1,0 +1,18 @@
+[package]
+name = "fun"
+description = "A funny file explorer."
+version = "0.1.0"
+edition = "2021"
+keywords = ["tui", "terminal", "file", "explorer", "fun"]
+
+[dependencies]
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1
+opt-level = 3
+
+[profile.rel_size]
+inherits = "release"
+opt-level = "z"
