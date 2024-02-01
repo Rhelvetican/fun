@@ -69,7 +69,7 @@ fn get_justified_keyboard_shortcuts_table(
         .unwrap_or(10);
 
     // Mapping from action names to list of key combinations
-    let key_map_invert = invert_key_mapping_sorted(key_map);
+    let key_map_invert = invert_keymap_sorted(key_map);
 
     let mut justified = String::new();
 
@@ -116,4 +116,40 @@ fn get_justified_keyboard_shortcuts_table(
     }
 
     justified
+}
+
+fn invert_keymap_sorted(
+    key_map: &HashMap<(KeyEvent, ActionContext), Action>,
+) -> HashMap<String, Vec<(KeyEvent, ActionContext)>> {
+    let mut key_map_invert: HashMap<String, Vec<(KeyEvent, ActionContext)>>::new();
+
+    fn cmp_key_events(k1: &KeyEvent, k2: &KeyEvent) -> std::cmp::Ordering {
+        let formatter = crokey::KeyCombinationFormat::default();
+        match (k1.modifiers.is_empty(), k2.modifiers.is_empty()) {
+            (true, true) | (false, false) => {
+                // both or neither have modifiers, sort alphabetically
+                formatter.to_string(*k1).cmp(&formatter.to_string(*k2))
+            }
+            (true, false) => std::cmp::Ordering::Less,
+            (false, true) => std::cmp::Ordering::Greater,
+        }
+    }
+
+    for ((k, c), a) in key_map {
+        key_map_invert
+            .entry(a.to_string())
+            .or_insert(vec![])
+            .push((*k, c.clone()))
+    }
+
+    for (_, mappings) in key_map_invert.iter_mut() {
+        mappings.sort_unstable_by(|(k1, c1), (k2, c2)| match (c1, c2) {
+            (ActionContext::None, ActionContext::None) => cmp_key_events(k1, k2),
+            (_, ActionContext::None) => std::cmp::Ordering::Greater,
+            (ActionContext::None, _) => std::cmp::Ordering::Less,
+            (_, _) => c1.to_string().cmp(&c2.to_string()),
+        })
+    }
+
+    key_map_invert
 }
