@@ -4,8 +4,13 @@ description = "A funny file explorer."
 version = "0.1.0"
 edition = "2021"
 keywords = ["tui", "terminal", "file", "explorer", "fun"]
+license = "MIT"
+repository = "https://github.com/Rhelvetican/fun"
+readme = "README.md"
 
 [dependencies]
+
+[dev-dependencies]
 
 [profile.release]
 lto = true
