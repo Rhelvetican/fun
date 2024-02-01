@@ -121,7 +121,7 @@ fn get_justified_keyboard_shortcuts_table(
 fn invert_keymap_sorted(
     key_map: &HashMap<(KeyEvent, ActionContext), Action>,
 ) -> HashMap<String, Vec<(KeyEvent, ActionContext)>> {
-    let mut key_map_invert: HashMap<String, Vec<(KeyEvent, ActionContext)>>::new();
+    let mut key_map_invert: HashMap<String, Vec<(KeyEvent, ActionContext)>> = HashMap::new();
 
     fn cmp_key_events(k1: &KeyEvent, k2: &KeyEvent) -> std::cmp::Ordering {
         let formatter = crokey::KeyCombinationFormat::default();
